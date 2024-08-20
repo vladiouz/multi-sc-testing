@@ -1,0 +1,16 @@
+[package]
+name = "multiple-sc-testing"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+[workspace]
+resolver = "2"
+
+members = [
+    "contracts/game",
+    "contracts/game/meta",
+    "contracts/on-chain-claim",
+    "contracts/on-chain-claim/meta",   
+]
