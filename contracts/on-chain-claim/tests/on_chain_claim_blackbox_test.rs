@@ -8,7 +8,7 @@ const SECOND_USER: TestAddress =
     TestAddress::new("erd18tl5dm72ppkzmx5kvxjlnclrd7wa349r2ytutx60ugqhq5gnl66s5046zd");
 const SC_ADDRESS: TestSCAddress =
     TestSCAddress::new("erd1qqqqqqqqqqqqqpgqrhzm5tlnqgyxmc0suqfcfwzn8fxcfdg4dzsqysc3tt");
-const CODE_PATH: MxscPath = MxscPath::new("output/on-chain-claim.mxsc.json");
+const CODE_PATH: MxscPath = MxscPath::new("../output/on-chain-claim.mxsc.json");
 const TOKEN: TestTokenIdentifier = TestTokenIdentifier::new("VLAD-6bde05");
 const INVALID_TOKEN: TestTokenIdentifier = TestTokenIdentifier::new("12sasdf");
 
@@ -32,6 +32,7 @@ fn world() -> ScenarioWorld {
 #[test]
 fn on_chain_claim_blackbox_init() {
     let mut world = world();
+    world.start_trace();
 
     let new_address = world
         .tx()
@@ -45,11 +46,14 @@ fn on_chain_claim_blackbox_init() {
         .run();
 
     assert_eq!(new_address, SC_ADDRESS);
+
+    world.write_scenario_trace("scenarios/trace1.scen.json");
 }
 
 #[test]
 fn on_chain_claim_blackbox_init_invalid_token_id() {
     let mut world = world();
+    world.start_trace();
 
     world
         .tx()
@@ -61,11 +65,14 @@ fn on_chain_claim_blackbox_init_invalid_token_id() {
         .returns(ExpectError(4, "Invalid token ID"))
         .new_address(SC_ADDRESS)
         .run();
+
+    world.write_scenario_trace("scenarios/trace9.json");
 }
 
 #[test]
 fn on_chain_claim_double_claim() {
     let mut world = world();
+    world.start_trace();
 
     let new_address = world
         .tx()
@@ -97,11 +104,14 @@ fn on_chain_claim_double_claim() {
         .claim()
         .returns(ExpectError(4, "epoch already claimed"))
         .run();
+
+    world.write_scenario_trace("scenarios/trace10.json");
 }
 
 #[test]
 fn on_chain_claim_late_claim() {
     let mut world = world();
+    world.start_trace();
 
     let new_address = world
         .tx()
@@ -148,11 +158,14 @@ fn on_chain_claim_late_claim() {
     assert_eq!(address_info.current_streak, 1);
     assert_eq!(address_info.last_epoch_claimed, 3);
     assert_eq!(address_info.total_epochs_claimed, 2);
+
+    world.write_scenario_trace("scenarios/trace11.json");
 }
 
 #[test]
 fn on_chain_claim_wrong_shard_claim() {
     let mut world = world();
+    world.start_trace();
 
     let new_address = world
         .tx()
@@ -175,11 +188,14 @@ fn on_chain_claim_wrong_shard_claim() {
         .claim()
         .returns(ExpectError(4, "wrong shard"))
         .run();
+
+    world.write_scenario_trace("scenarios/trace12.json");
 }
 
 #[test]
 fn on_chain_claim_claim_happy_path() {
     let mut world = world();
+    world.start_trace();
 
     let new_address = world
         .tx()
@@ -226,11 +242,14 @@ fn on_chain_claim_claim_happy_path() {
     assert_eq!(address_info.current_streak, 2);
     assert_eq!(address_info.last_epoch_claimed, 2);
     assert_eq!(address_info.total_epochs_claimed, 2);
+
+    world.write_scenario_trace("scenarios/trace12.json");
 }
 
 #[test]
 fn on_chain_claim_claim_and_repair_bad_amount() {
     let mut world = world();
+    world.start_trace();
 
     let new_address = world
         .tx()
@@ -258,11 +277,14 @@ fn on_chain_claim_claim_and_repair_bad_amount() {
         ))
         .returns(ExpectError(4, "Bad payment token/amount"))
         .run();
+
+    world.write_scenario_trace("scenarios/trace2.scen.json");
 }
 
 #[test]
 fn on_chain_claim_claim_and_repair_wrong_shard() {
     let mut world = world();
+    world.start_trace();
 
     let new_address = world
         .tx()
@@ -290,11 +312,14 @@ fn on_chain_claim_claim_and_repair_wrong_shard() {
         ))
         .returns(ExpectError(4, "wrong shard"))
         .run();
+
+    world.write_scenario_trace("scenarios/trace3.scen.json");
 }
 
 #[test]
 fn on_chain_claim_claim_and_repair_non_burnable_token() {
     let mut world = world();
+    world.start_trace();
 
     let new_address = world
         .tx()
@@ -333,11 +358,14 @@ fn on_chain_claim_claim_and_repair_non_burnable_token() {
         ))
         .returns(ExpectError(10, "action is not allowed"))
         .run();
+
+    world.write_scenario_trace("scenarios/trace5.scen.json");
 }
 
 #[test]
 fn on_chain_claim_claim_and_repair_happy_path() {
     let mut world = world();
+    world.start_trace();
 
     let new_address = world
         .tx()
@@ -388,11 +416,14 @@ fn on_chain_claim_claim_and_repair_happy_path() {
         .run();
 
     assert_ne!(address_info.best_streak, 0);
+
+    world.write_scenario_trace("scenarios/trace6.scen.json");
 }
 
 #[test]
 fn on_chain_claim_update_state_happy_path() {
     let mut world = world();
+    world.start_trace();
 
     let new_address = world
         .tx()
@@ -434,11 +465,14 @@ fn on_chain_claim_update_state_happy_path() {
     assert_eq!(address_info.current_streak, 1);
     assert_eq!(address_info.last_epoch_claimed, 2);
     assert_eq!(address_info.total_epochs_claimed, 20);
+
+    world.write_scenario_trace("scenarios/trace7.scen.json");
 }
 
 #[test]
 fn on_chain_claim_update_state_non_admin() {
     let mut world = world();
+    world.start_trace();
 
     let new_address = world
         .tx()
@@ -467,11 +501,14 @@ fn on_chain_claim_update_state_non_admin() {
         )
         .returns(ExpectError(4, "Endpoint can only be called by admins"))
         .run();
+
+    world.write_scenario_trace("scenarios/trace8.scen.json");
 }
 
 #[test]
 fn on_chain_claim_update_state_wrong_shard() {
     let mut world = world();
+    world.start_trace();
 
     let new_address = world
         .tx()
@@ -500,4 +537,6 @@ fn on_chain_claim_update_state_wrong_shard() {
         )
         .returns(ExpectError(4, "wrong shard"))
         .run();
+
+    world.write_scenario_trace("scenarios/trace13.scen.json");
 }
