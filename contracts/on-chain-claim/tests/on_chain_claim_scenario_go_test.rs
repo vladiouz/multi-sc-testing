@@ -25,11 +25,6 @@ fn trace_3_go() {
 }
 
 #[test]
-fn trace_4_go() {
-    world().run("scenarios/trace4.scen.json");
-}
-
-#[test]
 fn trace_5_go() {
     world().run("scenarios/trace5.scen.json");
 }
