@@ -7,7 +7,7 @@
 /output*/
 
 # Mandos test trace
-trace*.scen.json
-trace*.json
+# trace*.scen.json
+# trace*.json
 
 wallet.pem
