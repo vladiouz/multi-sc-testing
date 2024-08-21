@@ -19,3 +19,37 @@ jobs:
       enable-contracts-size-report: false
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
+
+  test-and-coverage:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        folder: ["contracts/game", "contracts/on-chain-claim"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly-2023-12-11
+          profile: minimal
+          components: rustfmt, clippy
+          override: true
+
+      - name: Install cargo-tarpaulin
+        run: cargo install cargo-tarpaulin
+
+      - name: Run tests and generate coverage for ${{ matrix.folder }}
+        run: |
+          cd ${{ matrix.folder }}
+          cargo tarpaulin --out Xml
+        continue-on-error: true
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-${{ matrix.folder }}
+          path: ${{ matrix.folder }}/tarpaulin-report.xml
