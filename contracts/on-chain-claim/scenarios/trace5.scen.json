@@ -1,70 +1,101 @@
 {
-  "steps": [
-    {
-      "step": "setState",
-      "newAddresses": [
+    "steps": [
         {
-          "creatorAddress": "address:erd14pytqekzvghdl9frcdu9pyt2c34wjtw4hq4aequntmp54whfdzsqsg7hft",
-          "creatorNonce": "0",
-          "newAddress": "sc:erd1qqqqqqqqqqqqqpgqrhzm5tlnqgyxmc0suqfcfwzn8fxcfdg4dzsqysc3tt"
+            "step": "setState",
+            "accounts": {
+                "address:erd14pytqekzvghdl9frcdu9pyt2c34wjtw4hq4aequntmp54whfdzsqsg7hft": {
+                    "balance": "100",
+                    "esdt": {
+                        "str:VLAD-6bde05": "100"
+                    }
+                }
+            }
+        },
+        {
+            "step": "setState",
+            "accounts": {
+                "address:erd18tl5dm72ppkzmx5kvxjlnclrd7wa349r2ytutx60ugqhq5gnl66s5046zd": {
+                    "balance": "1000",
+                    "esdt": {
+                        "str:VLAD-6bde05": "1000"
+                    }
+                }
+            }
+        },
+        {
+            "step": "setState",
+            "currentBlockInfo": {
+                "blockEpoch": "1"
+            }
+        },
+        {
+            "step": "setState",
+            "newAddresses": [
+                {
+                    "creatorAddress": "address:erd14pytqekzvghdl9frcdu9pyt2c34wjtw4hq4aequntmp54whfdzsqsg7hft",
+                    "creatorNonce": "0",
+                    "newAddress": "sc:erd1qqqqqqqqqqqqqpgqrhzm5tlnqgyxmc0suqfcfwzn8fxcfdg4dzsqysc3tt"
+                }
+            ]
+        },
+        {
+            "step": "scDeploy",
+            "id": "",
+            "tx": {
+                "from": "address:erd14pytqekzvghdl9frcdu9pyt2c34wjtw4hq4aequntmp54whfdzsqsg7hft",
+                "contractCode": "mxsc:../output/on-chain-claim.mxsc.json",
+                "arguments": [
+                    "0x564c41442d366264653035",
+                    "0x"
+                ],
+                "gasLimit": "5,000,000"
+            },
+            "expect": {
+                "out": [],
+                "status": "0"
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "",
+            "tx": {
+                "from": "address:erd14pytqekzvghdl9frcdu9pyt2c34wjtw4hq4aequntmp54whfdzsqsg7hft",
+                "to": "sc:erd1qqqqqqqqqqqqqpgqrhzm5tlnqgyxmc0suqfcfwzn8fxcfdg4dzsqysc3tt",
+                "function": "claim",
+                "arguments": [],
+                "gasLimit": "5,000,000"
+            },
+            "expect": {
+                "out": [],
+                "status": "0"
+            }
+        },
+        {
+            "step": "setState",
+            "currentBlockInfo": {
+                "blockEpoch": "4"
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "",
+            "tx": {
+                "from": "address:erd14pytqekzvghdl9frcdu9pyt2c34wjtw4hq4aequntmp54whfdzsqsg7hft",
+                "to": "sc:erd1qqqqqqqqqqqqqpgqrhzm5tlnqgyxmc0suqfcfwzn8fxcfdg4dzsqysc3tt",
+                "esdtValue": [
+                    {
+                        "tokenIdentifier": "0x564c41442d366264653035",
+                        "value": "1"
+                    }
+                ],
+                "function": "claimAndRepair",
+                "arguments": [],
+                "gasLimit": "5,000,000"
+            },
+            "expect": {
+                "status": "10",
+                "message": "str:action is not allowed"
+            }
         }
-      ]
-    },
-    {
-      "step": "scDeploy",
-      "id": "",
-      "tx": {
-        "from": "address:erd14pytqekzvghdl9frcdu9pyt2c34wjtw4hq4aequntmp54whfdzsqsg7hft",
-        "contractCode": "mxsc:../output/on-chain-claim.mxsc.json",
-        "arguments": ["0x564c41442d366264653035", "0x"],
-        "gasLimit": "5,000,000"
-      },
-      "expect": {
-        "out": [],
-        "status": "0"
-      }
-    },
-    {
-      "step": "scCall",
-      "id": "",
-      "tx": {
-        "from": "address:erd14pytqekzvghdl9frcdu9pyt2c34wjtw4hq4aequntmp54whfdzsqsg7hft",
-        "to": "sc:erd1qqqqqqqqqqqqqpgqrhzm5tlnqgyxmc0suqfcfwzn8fxcfdg4dzsqysc3tt",
-        "function": "claim",
-        "arguments": [],
-        "gasLimit": "5,000,000"
-      },
-      "expect": {
-        "out": [],
-        "status": "0"
-      }
-    },
-    {
-      "step": "setState",
-      "currentBlockInfo": {
-        "blockEpoch": "4"
-      }
-    },
-    {
-      "step": "scCall",
-      "id": "",
-      "tx": {
-        "from": "address:erd14pytqekzvghdl9frcdu9pyt2c34wjtw4hq4aequntmp54whfdzsqsg7hft",
-        "to": "sc:erd1qqqqqqqqqqqqqpgqrhzm5tlnqgyxmc0suqfcfwzn8fxcfdg4dzsqysc3tt",
-        "esdtValue": [
-          {
-            "tokenIdentifier": "0x564c41442d366264653035",
-            "value": "1"
-          }
-        ],
-        "function": "claimAndRepair",
-        "arguments": [],
-        "gasLimit": "5,000,000"
-      },
-      "expect": {
-        "status": "10",
-        "message": "str:action is not allowed"
-      }
-    }
-  ]
+    ]
 }

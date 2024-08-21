@@ -10,6 +10,21 @@ fn trace_1_go() {
 }
 
 #[test]
+fn trace_10_go() {
+    world().run("scenarios/trace10.scen.json");
+}
+
+#[test]
+fn trace_11_go() {
+    world().run("scenarios/trace11.scen.json");
+}
+
+#[test]
+fn trace_12_go() {
+    world().run("scenarios/trace12.scen.json");
+}
+
+#[test]
 fn trace_13_go() {
     world().run("scenarios/trace13.scen.json");
 }
@@ -42,4 +57,9 @@ fn trace_7_go() {
 #[test]
 fn trace_8_go() {
     world().run("scenarios/trace8.scen.json");
+}
+
+#[test]
+fn trace_9_go() {
+    world().run("scenarios/trace9.scen.json");
 }
