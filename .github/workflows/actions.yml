@@ -34,7 +34,7 @@ jobs:
       - name: Set up Rust
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: nightly-2023-12-11
+          toolchain: nightly-2024-07-25
           profile: minimal
           components: rustfmt, clippy
           override: true
