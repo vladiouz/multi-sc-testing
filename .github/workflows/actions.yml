@@ -20,36 +20,49 @@ jobs:
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
 
-  test-and-coverage:
+  build:
+    name: Build
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        folder: ["contracts/game", "contracts/on-chain-claim"]
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v1
 
-      - name: Set up Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly-2024-07-25
-          profile: minimal
-          components: rustfmt, clippy
-          override: true
-
-      - name: Install cargo-tarpaulin
-        run: cargo install cargo-tarpaulin
-
-      - name: Run tests and generate coverage for ${{ matrix.folder }}
+      - name: test coverage with llvm-cov
         run: |
-          cd ${{ matrix.folder }}
-          cargo tarpaulin --out Xml
-        continue-on-error: true
+          cargo llvm-cov --html
 
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage-${{ matrix.folder }}
-          path: ${{ matrix.folder }}/tarpaulin-report.xml
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
+
+  # test-and-coverage:
+  #   runs-on: ubuntu-latest
+
+  #   strategy:
+  #     matrix:
+  #       folder: ["contracts/game", "contracts/on-chain-claim"]
+
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+
+  #     - name: Set up Rust
+  #       uses: actions-rs/toolchain@v1
+  #       with:
+  #         toolchain: nightly-2024-07-25
+  #         profile: minimal
+  #         components: rustfmt, clippy
+  #         override: true
+
+  #     - name: Install cargo-tarpaulin
+  #       run: cargo install cargo-tarpaulin
+
+  #     - name: Run tests and generate coverage for ${{ matrix.folder }}
+  #       run: |
+  #         cd ${{ matrix.folder }}
+  #         cargo tarpaulin --out Xml
+  #       continue-on-error: true
+
+  #     - name: Upload coverage report
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: coverage-${{ matrix.folder }}
+  #         path: ${{ matrix.folder }}/tarpaulin-report.xml
