@@ -28,6 +28,7 @@ jobs:
 
       - name: test coverage with llvm-cov
         run: |
+          cargo install cargo-llvm-cov
           cargo llvm-cov --html
 
       - name: Coveralls
