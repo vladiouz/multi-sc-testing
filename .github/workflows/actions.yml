@@ -32,9 +32,7 @@ jobs:
           cargo llvm-cov --lcov --output-path lcov.info
 
       - name: Coveralls
-        run: |
-          cargo install coveralls
-          coveralls upload
+        uses: coverallsapp/github-action@v2
 
   # test-and-coverage:
   #   runs-on: ubuntu-latest
