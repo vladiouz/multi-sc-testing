@@ -529,3 +529,62 @@ fn on_chain_claim_update_state_wrong_shard() {
 
     // world.write_scenario_trace("scenarios/trace13.scen.json");
 }
+
+#[test]
+fn on_chain_claim_set_repair_streak_payment() {
+    let mut world = world();
+
+    let new_address = world
+        .tx()
+        .from(OWNER_ADDRESS)
+        .typed(proxy::OnChainClaimContractProxy)
+        .init(TOKEN, 0u64)
+        .code(CODE_PATH)
+        .code_metadata(CodeMetadata::PAYABLE)
+        .returns(ReturnsNewAddress)
+        .new_address(SC_ADDRESS)
+        .run();
+
+    assert_eq!(new_address, SC_ADDRESS);
+
+    world
+        .tx()
+        .from(OWNER_ADDRESS)
+        .to(SC_ADDRESS)
+        .typed(proxy::OnChainClaimContractProxy)
+        .set_repair_streak_payment(TOKEN, 1u64)
+        .returns(ReturnsResult)
+        .run();
+
+    let repair_streak_payment = world
+        .query()
+        .to(SC_ADDRESS)
+        .typed(proxy::OnChainClaimContractProxy)
+        .repair_streak_payment()
+        .returns(ReturnsResult)
+        .run();
+
+    assert_eq!(
+        repair_streak_payment.token_identifier,
+        TokenIdentifier::from(TOKEN)
+    );
+    assert_eq!(repair_streak_payment.amount, 1);
+
+    world
+        .tx()
+        .from(SECOND_USER)
+        .to(SC_ADDRESS)
+        .typed(proxy::OnChainClaimContractProxy)
+        .set_repair_streak_payment(TOKEN, 1u64)
+        .returns(ExpectError(4, "Endpoint can only be called by admins"))
+        .run();
+
+    world
+        .tx()
+        .from(OWNER_ADDRESS)
+        .to(SC_ADDRESS)
+        .typed(proxy::OnChainClaimContractProxy)
+        .set_repair_streak_payment(INVALID_TOKEN, 1u64)
+        .returns(ExpectError(4, "Invalid token ID"))
+        .run();
+}
