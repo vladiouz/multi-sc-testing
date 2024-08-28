@@ -34,7 +34,7 @@ jobs:
       - name: Coveralls
         run: |
           cargo install coveralls
-          coveralls upload --repo-token=${{ secrets.COVERALLS_REPO_TOKEN }}
+          coveralls upload
 
   # test-and-coverage:
   #   runs-on: ubuntu-latest
