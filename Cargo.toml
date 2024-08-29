@@ -3,5 +3,7 @@ resolver = "2"
 
 members = [
     "contracts/game",
-    "contracts/on-chain-claim", 
+    "contracts/game/meta",
+    "contracts/on-chain-claim",
+    "contracts/on-chain-claim/meta",   
 ]

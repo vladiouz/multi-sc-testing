@@ -569,6 +569,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "mvx-game-sc-meta"
+version = "0.0.0"
+dependencies = [
+ "multiversx-sc-meta-lib",
+ "mvx-game-sc",
+]
+
+[[package]]
 name = "nibble_vec"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -612,6 +620,14 @@ dependencies = [
  "multiversx-sc",
  "multiversx-sc-modules",
  "multiversx-sc-scenario",
+]
+
+[[package]]
+name = "on-chain-claim-meta"
+version = "0.0.0"
+dependencies = [
+ "multiversx-sc-meta-lib",
+ "on-chain-claim",
 ]
 
 [[package]]
